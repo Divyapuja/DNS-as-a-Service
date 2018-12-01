@@ -1,0 +1,10 @@
+---
+  - name: First create all containers
+    import_playbook: createContainer.yml
+
+  - name: create Namespaces and veth pair work
+    import_playbook: createNS.yml
+
+  - name: create Bridges and veth pair work
+    import_playbook: createBR.yml
+
