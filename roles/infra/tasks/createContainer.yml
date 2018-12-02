@@ -11,19 +11,11 @@
     with_dict: "{{ VPC }}"
 
   - name: create container for DNS in first subnets of all VPC
-    command: sudo docker run -itd --privileged --name="{{item.value.Subnet1.Subnet_name}}_{{item.value.VPC_name}}_DNS1" --hostname="{{item.value.Subnet1.Subnet_name}}_{{item.value.VPC_name}}_DNS1" soupdns
-    with_dict: "{{ VPC }}"
-
-  - name: create secondary container for DNS in first subnets of all VPC
-    command: sudo docker run -itd --privileged --name="{{item.value.Subnet1.Subnet_name}}_{{item.value.VPC_name}}_DNS2" --hostname="{{item.value.Subnet1.Subnet_name}}_{{item.value.VPC_name}}_DNS2" soupdns
+    command: sudo docker run -itd --privileged --name="{{item.value.Subnet1.Subnet_name}}_{{item.value.VPC_name}}_DNS" --hostname="{{item.value.Subnet1.Subnet_name}}_{{item.value.VPC_name}}_DNS" soupdns
     with_dict: "{{ VPC }}"
 
   - name: create container for DNS in second subnets of all VPC
-    command: sudo docker run -itd --privileged --name="{{item.value.Subnet2.Subnet_name}}_{{item.value.VPC_name}}_DNS1" --hostname="{{item.value.Subnet2.Subnet_name}}_{{item.value.VPC_name}}_DNS1" soupdns
-    with_dict: "{{ VPC }}"
-
-  - name: create secondary container for DNS in first subnets of all VPC
-    command: sudo docker run -itd --privileged --name="{{item.value.Subnet2.Subnet_name}}_{{item.value.VPC_name}}_DNS2" --hostname="{{item.value.Subnet2.Subnet_name}}_{{item.value.VPC_name}}_DNS2" soupdns
+    command: sudo docker run -itd --privileged --name="{{item.value.Subnet2.Subnet_name}}_{{item.value.VPC_name}}_DNS" --hostname="{{item.value.Subnet2.Subnet_name}}_{{item.value.VPC_name}}_DNS" soupdns
     with_dict: "{{ VPC }}"
 
   - name: create container in first subnets of all VPC

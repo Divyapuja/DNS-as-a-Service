@@ -1,0 +1,31 @@
+---
+  - name: detect process id of the container DNS VPC
+    command: sh ./roles/infra/tasks/getPID.sh "{{item.value.VPC_name}}_DNS1"
+    register: "pid_{{item.value.VPC_name}}_DNS1"
+    with_dict: "{{ VPC }}"
+
+  - name: detect process id of the secondary container DNS VPC
+    command: sh ./roles/infra/tasks/getPID.sh "{{item.value.VPC_name}}_DNS2"
+    register: "pid_{{item.value.VPC_name}}_DNS2"
+    with_dict: "{{ VPC }}"
+
+  - name: detect process id of the container DNS in first subnet of all VPC
+    command: sh ./roles/infra/tasks/getPID.sh "{{item.value.Subnet1.Subnet_name}}_{{item.value.VPC_name}}_DNS1"
+    register: "pid_{{item.value.Subnet1.Subnet_name}}_{{item.value.VPC_name}}_DNS"
+    with_dict: "{{ VPC }}"
+
+  - name: detect process id of the container DNS in second subnet of all VPC
+    command: sh ./roles/infra/tasks/getPID.sh "{{item.value.Subnet2.Subnet_name}}_{{item.value.VPC_name}}_DNS1"
+    register: "pid_{{item.value.Subnet2.Subnet_name}}_{{item.value.VPC_name}}_DNS"
+    with_dict: "{{ VPC }}"
+
+  - name: detect process id of the containers in first subnet of all VPC
+    command: sh ./roles/infra/tasks/getPID.sh "{{item.value.Subnet1.VM_name}}_{{item.value.VPC_name}}"
+    register: "pid_{{item.value.Subnet1.VM_name}}_{{item.value.VPC_name}}"
+    with_dict: "{{ VPC }}"
+
+  - name: detect process id of the containers in second subnet of all VPC
+    command: sh ./roles/infra/tasks/getPID.sh "{{item.value.Subnet2.VM_name}}_{{item.value.VPC_name}}"
+    register: "pid_{{item.value.Subnet2.VM_name}}_{{item.value.VPC_name}}"
+    with_dict: "{{ VPC }}"
+
