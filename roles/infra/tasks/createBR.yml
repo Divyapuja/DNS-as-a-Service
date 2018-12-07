@@ -1,46 +1,46 @@
 ---
-  - name: create bridge for first subnet for all VPC
-    command: brctl addbr "{{ item.value.Subnet1.Subnet_name}}_{{ item.value.VPC_name}}_br"
-    with_dict: "{{ VPC }}"
+#  - name: create bridge for first subnet for all VPC
+#    command: brctl addbr "{{ item.value.Subnet1.Subnet_name}}_{{ item.value.VPC_name}}_br"
+#    with_dict: "{{ VPC }}"
 
-  - name: create bridge for second subnet for all VPC
-    command: brctl addbr "{{ item.value.Subnet2.Subnet_name}}_{{ item.value.VPC_name}}_br"
-    with_dict: "{{ VPC }}"
+#  - name: create bridge for second subnet for all VPC
+#    command: brctl addbr "{{ item.value.Subnet2.Subnet_name}}_{{ item.value.VPC_name}}_br"
+#    with_dict: "{{ VPC }}"
 
-  - name: create bridge for VPC DNS
-    command: brctl addbr "{{ item.value.VPC_name}}_DNSbr"
-    with_dict: "{{ VPC }}"
+#  - name: create bridge for VPC DNS
+#    command: brctl addbr "{{ item.value.VPC_name}}_DNSbr"
+#    with_dict: "{{ VPC }}"
 
-  - name: set bridge up for first subnet for all VPC
-    command: sudo ip link set "{{ item.value.Subnet1.Subnet_name}}_{{ item.value.VPC_name}}_br" up
-    with_dict: "{{ VPC }}"
+#  - name: set bridge up for first subnet for all VPC
+#    command: sudo ip link set "{{ item.value.Subnet1.Subnet_name}}_{{ item.value.VPC_name}}_br" up
+#    with_dict: "{{ VPC }}"
 
-  - name: set bridge up for second subnet for all VPC
-    command: sudo ip link set "{{ item.value.Subnet2.Subnet_name}}_{{ item.value.VPC_name}}_br" up
-    with_dict: "{{ VPC }}"
+#  - name: set bridge up for second subnet for all VPC
+#    command: sudo ip link set "{{ item.value.Subnet2.Subnet_name}}_{{ item.value.VPC_name}}_br" up
+#    with_dict: "{{ VPC }}"
 
-  - name: set bridge up for VPC DNS
-    command: sudo ip link set "{{ item.value.VPC_name}}_DNSbr" up
-    with_dict: "{{ VPC }}"
+#  - name: set bridge up for VPC DNS
+#    command: sudo ip link set "{{ item.value.VPC_name}}_DNSbr" up
+#    with_dict: "{{ VPC }}"
  
-  - name: create Veth pairs for bridge in first subnet connecting NS
-    command: sudo ip link add "{{ item.value.VPC_name}}_{{item.value.Subnet1.Subnet_name}}" type veth peer name "{{item.value.Subnet1.Subnet_name}}_{{item.value.VPC_name}}"
-    with_dict: "{{ VPC }}"
+#  - name: create Veth pairs for bridge in first subnet connecting NS
+#    command: sudo ip link add "{{ item.value.VPC_name}}_{{item.value.Subnet1.Subnet_name}}" type veth peer name "{{item.value.Subnet1.Subnet_name}}_{{item.value.VPC_name}}"
+#    with_dict: "{{ VPC }}"
 
-  - name: create Veth pairs for bridge in second subnet connecting NS
-    command: sudo ip link add "{{ item.value.VPC_name}}_{{item.value.Subnet2.Subnet_name}}" type veth peer name "{{item.value.Subnet2.Subnet_name}}_{{item.value.VPC_name}}"
-    with_dict: "{{ VPC }}"
+#  - name: create Veth pairs for bridge in second subnet connecting NS
+#    command: sudo ip link add "{{ item.value.VPC_name}}_{{item.value.Subnet2.Subnet_name}}" type veth peer name "{{item.value.Subnet2.Subnet_name}}_{{item.value.VPC_name}}"
+#    with_dict: "{{ VPC }}"
 
-  - name: create Veth pairs for VPC DNS bridge connecting NS
-    command: sudo ip link add "{{ item.value.VPC_name}}_{{item.value.VPC_name}}_DNSbr" type veth peer name "{{item.value.VPC_name}}_DNSbr_{{item.value.VPC_name}}"
-    with_dict: "{{ VPC }}"
+#  - name: create Veth pairs for VPC DNS bridge connecting NS
+#    command: sudo ip link add "{{ item.value.VPC_name}}_{{item.value.VPC_name}}_DNSbr" type veth peer name "{{item.value.VPC_name}}_DNSbr_{{item.value.VPC_name}}"
+#    with_dict: "{{ VPC }}"
 
   - name: Add bridge interface to bridge for first subnet of all VPC
-    command: sudo brctl addif "{{ item.value.Subnet1.Subnet_name}}_{{item.value.VPC_name}}" "{{item.value.Subnet1.Subnet_name}}_{{item.value.VPC_name}}"
+    command: sudo brctl addif "{{ item.value.Subnet1.Subnet_name}}_{{item.value.VPC_name}}_br" "{{item.value.Subnet1.Subnet_name}}_{{item.value.VPC_name}}"
     with_dict: "{{ VPC }}"
 
   - name: Add bridge interface to bridge for second subnet of all VPC
-    command: sudo brctl addif "{{ item.value.Subnet2.Subnet_name}}_{{item.value.VPC_name}}" "{{item.value.Subnet2.Subnet_name}}_{{item.value.VPC_name}}"
+    command: sudo brctl addif "{{ item.value.Subnet2.Subnet_name}}_{{item.value.VPC_name}}_br" "{{item.value.Subnet2.Subnet_name}}_{{item.value.VPC_name}}"
     with_dict: "{{ VPC }}"
 
   - name: Add VPC DNS bridge interface into DNS bridge

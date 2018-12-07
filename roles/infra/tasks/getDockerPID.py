@@ -12,11 +12,11 @@ output = proc.stdout.read()
 data = {}
 data[k] = output
 
-with open('dockerName_PID.json') as f:
+with open('./roles/infra/tasks/dockerName_PID.json') as f:
     newData = json.load(f)
 
 
-with open('dockerName_PID.json', 'w') as f:
+with open('./roles/infra/tasks/dockerName_PID.json', 'w') as f:
     newData.update(data)
     json.dump(newData, f)
 
