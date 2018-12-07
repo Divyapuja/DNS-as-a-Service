@@ -20,4 +20,8 @@ with open('./roles/infra/tasks/dockerName_PID.json', 'w') as f:
     newData.update(data)
     json.dump(newData, f)
 
+w = csv.writer(open("./roles/infra/tasks/input.yml", "w"))
+for key, val in data.items():
+	w.writerow([key+":"+val])
+    
 print(output)
