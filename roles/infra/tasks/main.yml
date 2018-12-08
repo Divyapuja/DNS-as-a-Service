@@ -1,12 +1,15 @@
 ---
-#  - name: First create all containers
-#    import_tasks: createContainer.yml
+  - name: First create all containers
+    import_tasks: createContainer.yml
 
-#  - name: create Namespaces and veth pair work
-#    import_tasks: createNS.yml
+  - name: create Namespaces and veth pair work
+    import_tasks: createNS.yml
 
-#  - name: create Bridges and veth pair work
-#    import_tasks: createBR.yml
+  - name: create Bridges and veth pair work
+    import_tasks: createBR.yml
 
   - name: dump pid in json
     import_tasks: setContainer.yml
+  
+  #- name: configure the DNS
+  #  import_tasks: configDNS.yml
