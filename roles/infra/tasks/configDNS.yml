@@ -1,0 +1,27 @@
+---
+  - name: detect and register process id of the containers
+    command: python getDockerPID.py "{{containerName}}"
+
+  - name: detect and register process id of the containers
+    command: python jsonToYml.py
+
+  - name: move json key value to yml file
+    command: python 
+
+  - name: make default interface down
+    command: sudo nsenter -t "{{pid_SC1.stdout}}" -n ip link set dev eth0 down
+
+  - name: attach veth pair interface to containers
+    command: sudo ip link set SC1_LC1 netns "{{pid_SC1.stdout}}"
+
+  - name: attach veth pair interface to containers
+    command: sudo ip link set SC1_LC2 netns "{{pid_SC1.stdout}}"
+
+  - name: make interface up
+    command: sudo nsenter -t "{{pid_SC1.stdout}}" -n ip link set dev SC1_LC1 up
+
+  - name: add ip to these interfaces
+    command: sudo nsenter -t "{{pid_SC1.stdout}}" -n ip addr add 192.168.2.2/24 dev SC1_LC1
+
+  - name: add ip to these interfaces
+    command: sudo nsenter -t "{{pid_SC1.stdout}}" -n ip addr add 192.168.4.1/24 dev SC1_LC2
