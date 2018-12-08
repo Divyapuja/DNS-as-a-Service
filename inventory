@@ -1,9 +1,0 @@
-[container]
-c2sub2vm2
-
-[SubnetDNS]
-linux.com
-desktop.net
-
-[VPC_DNS]
-VPC1_DNS
