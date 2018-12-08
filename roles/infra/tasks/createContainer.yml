@@ -1,5 +1,5 @@
 ---
-  - name: copy the csv yml to vars in current task
+  - name: copy the user yml to vars in current task
     command: cp ./userInput.yml ./roles/infra/vars/main.yml
 
   - name: create containers for DNS VPC
