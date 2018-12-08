@@ -1,27 +1,45 @@
 ---
   - name: detect and register process id of the containers
-    command: python getDockerPID.py "{{containerName}}"
-
-  - name: detect and register process id of the containers
     command: python jsonToYml.py
 
-  - name: move json key value to yml file
-    command: python 
-
   - name: make default interface down
-    command: sudo nsenter -t "{{pid_SC1.stdout}}" -n ip link set dev eth0 down
+    command: sudo nsenter -t "{{item.value.Subnet1.VM_name}}" -n ip link set dev eth0 down
+    with_dict: "{{ VPC }}"
 
   - name: attach veth pair interface to containers
     command: sudo ip link set SC1_LC1 netns "{{pid_SC1.stdout}}"
 
+  - name: make interface up
+    command: sudo nsenter -t "{{pid_SC1.stdout}}" -n ip link set dev SC1_LC1 up
+
+  - name: get the IP address
+    command: python ipAssign.py 
+    register: ipAssignOut
+
+  - name: add ip to these interfaces
+    command: sudo nsenter -t "{{pid_SC1.stdout}}" -n ip addr add "{{ ipAssignOut.stdout }}" dev SC1_LC1
+
+  - name: add configuration to named conf
+    command: docker exec -it "{{ item.value.Subnet1.VM_name }}" sudo ansible-playbook -i inventory main.yml
+    with_dict: "{{ VPC }}"
+
+  - name: make default interface down
+    command: sudo nsenter -t "{{item.value.Subnet2.VM_name}}" -n ip link set dev eth0 down
+    with_dict: "{{ VPC }}"
+
   - name: attach veth pair interface to containers
-    command: sudo ip link set SC1_LC2 netns "{{pid_SC1.stdout}}"
+    command: sudo ip link set SC1_LC1 netns "{{pid_SC1.stdout}}"
 
   - name: make interface up
     command: sudo nsenter -t "{{pid_SC1.stdout}}" -n ip link set dev SC1_LC1 up
 
-  - name: add ip to these interfaces
-    command: sudo nsenter -t "{{pid_SC1.stdout}}" -n ip addr add 192.168.2.2/24 dev SC1_LC1
+  - name: get the IP address
+    command: python ipAssign.py 
+    register: ipAssignOut
 
   - name: add ip to these interfaces
-    command: sudo nsenter -t "{{pid_SC1.stdout}}" -n ip addr add 192.168.4.1/24 dev SC1_LC2
+    command: sudo nsenter -t "{{pid_SC1.stdout}}" -n ip addr add "{{ ipAssignOut.stdout }}" dev SC1_LC1
+
+  - name: add configuration to named conf
+    command: docker exec -it "{{ item.value.Subnet2.VM_name }}" sudo ansible-playbook -i inventory main.yml
+    with_dict: "{{ VPC }}"
