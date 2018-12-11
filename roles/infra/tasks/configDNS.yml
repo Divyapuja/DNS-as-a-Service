@@ -3,14 +3,18 @@
     command: python jsonToYml.py
 
   - name: make default interface down
+  #"{{item.value.Subnet1.Subnet_name}}_{{item.value.VPC_name}}_DNS"
     command: sudo nsenter -t "{{item.value.Subnet1.VM_name}}" -n ip link set dev eth0 down
     with_dict: "{{ VPC }}"
 
   - name: attach veth pair interface to containers
     command: sudo ip link set SC1_LC1 netns "{{pid_SC1.stdout}}"
 
+# onother yml file with not have name costructed like this, so itls value will be fetched from jsonToYml file
   - name: make interface up
-    command: sudo nsenter -t "{{pid_SC1.stdout}}" -n ip link set dev SC1_LC1 up
+  # "{{ var."{{item.value.Subnet1.Subnet_name}}_{{item.value.VPC_name}}_DNS"}}"
+    command: sudo nsenter -t "{{item.value.Subnet1.Subnet_name}}_{{item.value.VPC_name}}_DNS"}}" -n ip link set dev SC1_LC1 up
+    with_dict: "{{ VPC }}"
 
   - name: get the IP address
     command: python ipAssign.py 
