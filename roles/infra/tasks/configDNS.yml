@@ -2,18 +2,18 @@
   - name: detect and register process id of the containers
     command: python ./roles/infra/tasks/jsonToYml.py
 
-#  - name: create Veth pairs for VM DNS to connect to subnet1 bridge
-#    command: sudo ip link add "{{ item.value.Subnet1.VM_name}}_{{item.value.Subnet1.Subnet_name}}" type veth peer name "{{item.value.Subnet1.Subnet_name}}_{{item.value.Subnet1.VM_name}}"
-#    with_dict: "{{ VPC }}"
+  - name: create Veth pairs for VM DNS to connect to subnet1 bridge
+    command: sudo ip link add "{{ item.value.Subnet1.VM_name}}_{{item.value.Subnet1.Subnet_name}}" type veth peer name "{{item.value.Subnet1.Subnet_name}}_{{item.value.Subnet1.VM_name}}"
+    with_dict: "{{ VPC }}"
 
 #changing VPC_name temp to VPC1
-#  - name: Add bridge interface to bridge for first subnet of all VPC 
-#    command: sudo brctl addif "{{ item.value.Subnet1.Subnet_name}}_{{ item.value.VPC_name}}_br" "{{ item.value.Subnet1.Subnet_name}}_{{item.value.Subnet1.VM_name}}"
-#    with_dict: "{{ VPC }}"
+  - name: Add bridge interface to bridge for first subnet of all VPC 
+    command: sudo brctl addif "{{ item.value.Subnet1.Subnet_name}}_{{ item.value.VPC_name}}_br" "{{ item.value.Subnet1.Subnet_name}}_{{item.value.Subnet1.VM_name}}"
+    with_dict: "{{ VPC }}"
 
-#  - name: attach veth pair interface to containers
-#    shell: sudo ip link set $(python ./roles/infra/tasks/getDockerPID.py "{{ item.value.Subnet1.VM_name}}_{{item.value.VPC_name}}") dev "{{item.value.Subnet1.VM_name}}_{{item.value.Subnet1.Subnet_name}}"
-#    with_dict: "{{ VPC }}"
+  - name: attach veth pair interface to containers
+    shell: sudo ip link set $(python ./roles/infra/tasks/getDockerPID.py "{{ item.value.Subnet1.VM_name}}_{{item.value.VPC_name}}") dev "{{item.value.Subnet1.VM_name}}_{{item.value.Subnet1.Subnet_name}}"
+    with_dict: "{{ VPC }}"
 
   - name: make interface up
     shell: sudo nsenter -t $(python ./roles/infra/tasks/getDockerPID.py "{{ item.value.Subnet1.VM_name}}_{{item.value.VPC_name}}") -n ip link set dev "{{ item.value.Subnet1.VM_name}}_{{item.value.Subnet1.Subnet_name}}" up
