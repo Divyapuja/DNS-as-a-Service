@@ -11,11 +11,11 @@ sudo docker run -itd --privileged --name=PreSoupDNS --hostname=PreSoupDNS divyap
 #sh installationForDNS.sh PreSoupDNS
 sudo docker run -itd --privileged --name=SoupVPCDNS --hostname=SoupVPCDNS divyapuja/vpcdnsdns1
 #sh installationForDNS.sh SoupVPCDNS
-sudo docker run -itd --privileged --name=SoupCentralDNS --hostname=SoupCeentralDNS divyapuja/centraldns
+sudo docker run -itd --privileged --name=SoupCentralDNS --hostname=SoupCentralDNS divyapuja/centraldns
 #sh installationForDNS.sh SoupCentralDNS
 sudo docker commit PreSoupImage soupimage
 sudo docker commit PreSoupDNS soupsubnetdns
-sudo docker commmit SoupVPCDNS soupvpcdns
+sudo docker commit SoupVPCDNS soupvpcdns
 sudo docker commit SoupCentralDNS soupcentraldns
 sudo docker stop PreSoupImage
 sudo docker stop PreSoupDNS
