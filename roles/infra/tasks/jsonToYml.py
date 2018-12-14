@@ -3,10 +3,10 @@ import sys
 import json
 import csv
 
-with open('dockerName_PID.json') as f:
+with open('./roles/infra/tasks/dockerName_PID.json') as f:
     data = json.load(f)
 
-f = open("main.yml","w")
+f = open("./roles/infra/vars/input.yml","w")
 for key,val in data.items():
 	f.write( key+" : "+val )
 f.close()

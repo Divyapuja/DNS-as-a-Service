@@ -1,34 +1,18 @@
-# This file indicates the input given by User if user doesn't give in json
-# The yml format is easy to parse for us than json
----
-VPC:
-  VPC1:
-    VPC_IP: 10.10.0.0/16
-    VPC_name: VPC1
-    Subnet1:
-      Subnet_IP: 10.10.1.0/17
-      Subnet_name: linux.com
-      VM_IP: 10.10.1.10/17
-      VM_name: c1Sub1VM1
-      VM_IP: 10.10.1.20/17
-      VM_name: c1Sub1VM2
-    Subnet2:
-      Subnet_IP: 10.10.2.0/17
-      Subnet_name: cloud.com
-      VM_IP: 10.10.2.10/17
-      VM_name: c1Sub2VM1
-  VPC2:
-    VPC_IP: 10.11.0.0/16
-    VPC_name: VPC2
-    Subnet1:
-      Subnet_IP: 10.11.1.0/17
-      Subnet_name: remote.net
-      VM_IP: 10.11.1.10/17
-      VM_name: c2Sub1VM1
-    Subnet2:
-      Subnet_IP: 10.11.2.0/17
-      Subnet_name: desktop.net
-      VM_IP: 10.11.2.10/17
-      VM_name: c2Sub2VM1
-      VM_IP: 10.11.2.20/17
-      VM_name: c2Sub2VM2
+tv.net_VPC2_DNS1 : 
+c2S2VM2_VPC2 : 21795
+fb.net_VPC2_DNS1 : 
+c2S1VM1_VPC2 : 21486
+fb.com_VPC1_DNS1 : 
+VPC1_DNS1 : 20381
+cnu.com_VPC1_DNS1 : 
+VPC2_DNS1 : 20224
+VPC1_DNS2 : 83453
+fb.com_NCSU_DNS1 : 
+cnu.com_NCSU_DNS1 : 
+c1S1VM2_VPC1 : 21643
+VPC2_DNS2 : 20540
+c1S1VM2_NCSU : 
+NCSU_DNS2 : 
+c1S2VM1_NCSU : 
+c1S2VM1_VPC1 : 84488
+NCSU_DNS1 : 

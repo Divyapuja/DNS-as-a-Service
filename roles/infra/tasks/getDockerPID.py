@@ -4,24 +4,23 @@ import subprocess
 import json
 
 k = sys.argv[1]
-args = ['sudo', 'docker', 'inspect', '-f', '{{.State.Pid}}', k]
-proc = subprocess.Popen(args, stdout=subprocess.PIPE)
-output = proc.stdout.read()
+def proc():
+	args = ['sudo', 'docker', 'inspect', '-f', '{{.State.Pid}}', k]
+	proc = subprocess.Popen(args, stdout=subprocess.PIPE)
+	output = proc.stdout.read()
 
 
-data = {}
-data[k] = output
+	data = {}
+	data[k] = output
 
-with open('./roles/infra/tasks/dockerName_PID.json') as f:
-    newData = json.load(f)
+#	with open('./roles/infra/tasks/dockerName_PID.json') as f:
+#	    newData = json.load(f)
 
 
-with open('./roles/infra/tasks/dockerName_PID.json', 'w') as f:
-    newData.update(data)
-    json.dump(newData, f)
+#	with open('./roles/infra/tasks/dockerName_PID.json', 'w') as f:
+#	    newData.update(data)
+#	    json.dump(newData, f)
 
-w = csv.writer(open("./roles/infra/tasks/input.yml", "w"))
-for key, val in data.items():
-	w.writerow([key+":"+val])
-    
-print(output)
+	return output
+
+proc()

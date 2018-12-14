@@ -1,49 +1,24 @@
 ---
   - name: detect and register process id of the containers
-    command: python jsonToYml.py
+    command: python ./roles/infra/tasks/jsonToYml.py
 
-  - name: make default interface down
-  #"{{item.value.Subnet1.Subnet_name}}_{{item.value.VPC_name}}_DNS"
-    command: sudo nsenter -t "{{item.value.Subnet1.VM_name}}" -n ip link set dev eth0 down
-    with_dict: "{{ VPC }}"
+#  - name: create Veth pairs for VM DNS to connect to subnet1 bridge
+#    command: sudo ip link add "{{ item.value.Subnet1.VM_name}}_{{item.value.Subnet1.Subnet_name}}" type veth peer name "{{item.value.Subnet1.Subnet_name}}_{{item.value.Subnet1.VM_name}}"
+#    with_dict: "{{ VPC }}"
 
-  - name: attach veth pair interface to containers
-    command: sudo ip link set SC1_LC1 netns "{{pid_SC1.stdout}}"
+#changing VPC_name temp to VPC1
+#  - name: Add bridge interface to bridge for first subnet of all VPC 
+#    command: sudo brctl addif "{{ item.value.Subnet1.Subnet_name}}_{{ item.value.VPC_name}}_br" "{{ item.value.Subnet1.Subnet_name}}_{{item.value.Subnet1.VM_name}}"
+#    with_dict: "{{ VPC }}"
 
-# onother yml file with not have name costructed like this, so itls value will be fetched from jsonToYml file
-  - name: make interface up
-  # "{{ var."{{item.value.Subnet1.Subnet_name}}_{{item.value.VPC_name}}_DNS"}}"
-    command: sudo nsenter -t "{{item.value.Subnet1.Subnet_name}}_{{item.value.VPC_name}}_DNS"}}" -n ip link set dev SC1_LC1 up
-    with_dict: "{{ VPC }}"
-
-  - name: get the IP address
-    command: python ipAssign.py 
-    register: ipAssignOut
-
-  - name: add ip to these interfaces
-    command: sudo nsenter -t "{{pid_SC1.stdout}}" -n ip addr add "{{ ipAssignOut.stdout }}" dev SC1_LC1
-
-  - name: add configuration to named conf
-    command: docker exec -it "{{ item.value.Subnet1.VM_name }}" sudo ansible-playbook -i inventory main.yml
-    with_dict: "{{ VPC }}"
-
-  - name: make default interface down
-    command: sudo nsenter -t "{{item.value.Subnet2.VM_name}}" -n ip link set dev eth0 down
-    with_dict: "{{ VPC }}"
-
-  - name: attach veth pair interface to containers
-    command: sudo ip link set SC1_LC1 netns "{{pid_SC1.stdout}}"
+#  - name: attach veth pair interface to containers
+#    shell: sudo ip link set $(python ./roles/infra/tasks/getDockerPID.py "{{ item.value.Subnet1.VM_name}}_{{item.value.VPC_name}}") dev "{{item.value.Subnet1.VM_name}}_{{item.value.Subnet1.Subnet_name}}"
+#    with_dict: "{{ VPC }}"
 
   - name: make interface up
-    command: sudo nsenter -t "{{pid_SC1.stdout}}" -n ip link set dev SC1_LC1 up
-
-  - name: get the IP address
-    command: python ipAssign.py 
-    register: ipAssignOut
+    shell: sudo nsenter -t $(python ./roles/infra/tasks/getDockerPID.py "{{ item.value.Subnet1.VM_name}}_{{item.value.VPC_name}}") -n ip link set dev "{{ item.value.Subnet1.VM_name}}_{{item.value.Subnet1.Subnet_name}}" up
+    with_dict: "{{ VPC }}"
 
   - name: add ip to these interfaces
-    command: sudo nsenter -t "{{pid_SC1.stdout}}" -n ip addr add "{{ ipAssignOut.stdout }}" dev SC1_LC1
-
-  - name: add configuration to named conf
-    command: docker exec -it "{{ item.value.Subnet2.VM_name }}" sudo ansible-playbook -i inventory main.yml
+    shell: sudo nsenter -t $(python ./roles/infra/tasks/getDockerPID.py "{{ item.value.Subnet1.VM_name}}_{{item.value.VPC_name}}") -n ip addr add $(python ./roles/infra/tasks/ipassign.py "{{item.value.VPC_name}}" subnet "{{item.value.Subnet1.Subnet_IP}}") dev "{{item.value.Subnet1.VM_name}}_{{item.value.Subnet1.Subnet_name}}"
     with_dict: "{{ VPC }}"
