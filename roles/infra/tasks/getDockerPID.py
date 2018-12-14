@@ -16,8 +16,6 @@ def proc():
 #	with open('./roles/infra/tasks/dockerName_PID.json') as f:
 #	    newData = json.load(f)
 
-
-<<<<<<< HEAD
 #	with open('./roles/infra/tasks/dockerName_PID.json', 'w') as f:
 #	    newData.update(data)
 #	    json.dump(newData, f)
