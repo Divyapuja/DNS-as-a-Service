@@ -11,8 +11,16 @@
     command: python ./roles/infra/tasks/getDockerPID.py "{{item.value.Subnet1.Subnet_name}}_{{item.value.VPC_name}}_DNS1"
     with_dict: "{{ VPC }}"
 
+  - name: detect process id of the secondary container DNS in first subnet of all VPC
+    command: python ./roles/infra/tasks/getDockerPID.py "{{item.value.Subnet1.Subnet_name}}_{{item.value.VPC_name}}_DNS2"
+    with_dict: "{{ VPC }}"
+
   - name: detect process id of the container DNS in second subnet of all VPC
     command: python ./roles/infra/tasks/getDockerPID.py "{{item.value.Subnet2.Subnet_name}}_{{item.value.VPC_name}}_DNS1"
+    with_dict: "{{ VPC }}"
+
+  - name: detect process id of the secondary container DNS in second subnet of all VPC
+    command: python ./roles/infra/tasks/getDockerPID.py "{{item.value.Subnet2.Subnet_name}}_{{item.value.VPC_name}}_DNS2"
     with_dict: "{{ VPC }}"
 
   - name: detect process id of the containers in first subnet of all VPC
@@ -22,4 +30,10 @@
   - name: detect process id of the containers in second subnet of all VPC
     command: python ./roles/infra/tasks/getDockerPID.py "{{item.value.Subnet2.VM_name}}_{{item.value.VPC_name}}"
     with_dict: "{{ VPC }}"
+
+  - name: detect process id of the central DNS
+    command: python ./roles/infra/tasks/getDockerPID.py central_DNS1
+
+  - name: detect process id of the secondary central DNS
+    command: python ./roles/infra/tasks/getDockerPID.py central_DNS2
 
