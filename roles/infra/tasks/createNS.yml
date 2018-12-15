@@ -18,3 +18,7 @@
   - name: make veth interface in host as UP
     command: ip link set "host_{{ item.value.VPC_name }}" up
     with_dict: "{{ VPC }}"
+
+  - name: add ip to veth interface in host
+    command: ip addr add 10.10.10.1/24 dev "host_{{ item.value.VPC_name }}"
+    with_dict: "{{ VPC }}"
