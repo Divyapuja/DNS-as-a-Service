@@ -1,11 +1,11 @@
 ---
-- hosts: localhost
+- hosts: main-hypervisor
   gather_facts: no
   become: yes
   roles:
     - infra
 
-- hosts: remotehost
+- hosts: remote-hypervisor
   gather_facts: no
   become: yes
   roles:
