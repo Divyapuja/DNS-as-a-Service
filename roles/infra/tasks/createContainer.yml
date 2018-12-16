@@ -41,6 +41,6 @@
     command: sudo docker run -itd --privileged --name="central_DNS2" --hostname="central_DNS2" soupcentraldns
 
   - name: create container for central load balancer 
-    command: sudo docker run -itd --privileged --name="ngnix" --hostname="ngnix" soupngnix
+    command: sudo docker run -itd --privileged --name="nginx" --hostname="nginx" soupnginx
 
 
