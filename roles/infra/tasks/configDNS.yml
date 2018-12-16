@@ -37,3 +37,8 @@
   - name: trigger DNS setting inside DNS containers
     shell: sudo docker exec -i "{{item.value.VPC_name}}_DNS1" sh triggerDNSAnsible.sh "{{ Subnet_IP}}" "{{item.value.VPC_name}}" "{{ item.value.Subnet1.Subnet_name}}" 
     with_dict: "{{ VPC }}"
+
+  - name: trigger DNS setting inside DNS containers
+    shell: sudo docker exec -i nginx sh triggerNginxAnsible.sh 50.50.50.10 50.50.50.20
+
+
