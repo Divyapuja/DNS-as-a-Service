@@ -42,7 +42,7 @@
     command: sudo brctl addif central_br br_central_DNS1 br_central_DNS2 br_ngnix br_host
 
   - name: attach veth pair interface to central containers from central bridge
-    shell: sudo ip link set $(python ./roles/infra/tasks/getDockerPID.py central_DNS1) dev central_DNS1_br
+    command: sudo ip link set central_DNS1_br netns $(python ./roles/infra/tasks/getDockerPID.py central_DNS1)
 
   - name: make interface up
     shell: sudo docker exec -it --privileged central_DNS1 ip link set dev central_DNS1_br up
@@ -51,7 +51,7 @@
   #  command: sudo nsenter -t $(python ./roles/infra/tasks/getDockerPID.py central_DNS1) -n ip addr add $(python ./roles/infra/tasks/ipassign.py "{{item.value.VPC_name}}" subnet "{{item.value.Subnet1.Subnet_IP}}") dev central_DNS1_br
 
   - name: attach veth pair interface to secondary central containers from central bridge
-    command: sudo ip link set $(python ./roles/infra/tasks/getDockerPID.py central_DNS2) dev central_DNS2_br
+    command: sudo ip link set central_DNS2_br netns $(python ./roles/infra/tasks/getDockerPID.py central_DNS2)
 
   - name: make interface up
     command: sudo docker exec -it --privileged central_DNS2 ip link set dev central_DNS2_br up
@@ -59,8 +59,8 @@
  # - name: add ip to these interfaces
  #   command: sudo nsenter -t $(python ./roles/infra/tasks/getDockerPID.py central_DNS2) -n ip addr add $(python ./roles/infra/tasks/ipassign.py "{{item.value.VPC_name}}" subnet "{{item.value.Subnet1.Subnet_IP}}") dev central_DNS2_br
 
-  - name: attach veth pair interface to containers
-    command: sudo ip link set $(python ./roles/infra/tasks/getDockerPID.py nginx) dev ngnix_br
+  - name: attach veth pair interface to load containers
+    command: sudo ip link set ngnix_br netns $(python ./roles/infra/tasks/getDockerPID.py nginx)
 
   - name: make interface up
     command: sudo docker exec -it --privileged nginx ip link set dev ngnix_br up
