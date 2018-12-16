@@ -8,11 +8,11 @@ sudo apt-get install python -y
 sudo docker run -itd --privileged --name=PreSoupImage --hostname=PreSoupImage divyapuja/host
 #sh installationForSoup.sh PreSoupImage
 sudo docker run -itd --privileged --name=PreSoupDNS --hostname=PreSoupDNS divyapuja/subnetdns1
-#sh installationForDNS.sh PreSoupDNS
+sh installationForDNS.sh PreSoupDNS
 sudo docker run -itd --privileged --name=SoupVPCDNS --hostname=SoupVPCDNS divyapuja/vpcdnsdns1
-#sh installationForDNS.sh SoupVPCDNS
+sh installationForDNS.sh SoupVPCDNS
 sudo docker run -itd --privileged --name=SoupCentralDNS --hostname=SoupCentralDNS divyapuja/centraldns
-#sh installationForDNS.sh SoupCentralDNS
+sh installationForDNS.sh SoupCentralDNS
 sudo docker commit PreSoupImage soupimage
 sudo docker commit PreSoupDNS soupsubnetdns
 sudo docker commit SoupVPCDNS soupvpcdns
