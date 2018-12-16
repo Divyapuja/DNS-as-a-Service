@@ -13,14 +13,18 @@ sudo docker run -itd --privileged --name=SoupVPCDNS --hostname=SoupVPCDNS divyap
 sh installationForDNS.sh SoupVPCDNS
 sudo docker run -itd --privileged --name=SoupCentralDNS --hostname=SoupCentralDNS divyapuja/centraldns
 sh installationForDNS.sh SoupCentralDNS
+sudo docker run -itd --privileged --name=PreSoupNginx --hostname=PreSoupNginx divyapuja/nginxlb
+sh installationForNgnix.sh PreSoupNginx
 sudo docker commit PreSoupImage soupimage
 sudo docker commit PreSoupDNS soupsubnetdns
 sudo docker commit SoupVPCDNS soupvpcdns
 sudo docker commit SoupCentralDNS soupcentraldns
+sudo docker commit PreSoupNginx soupngnix
 sudo docker stop PreSoupImage
 sudo docker stop PreSoupDNS
 sudo docker stop SoupVPCDNS
 sudo docker stop SoupCentralDNS
+sudo docker stop PreSoupNginx
 sudo docker system prune
 
 
