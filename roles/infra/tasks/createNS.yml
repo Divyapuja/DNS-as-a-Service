@@ -60,7 +60,7 @@
  #   command: sudo nsenter -t $(python ./roles/infra/tasks/getDockerPID.py central_DNS2) -n ip addr add $(python ./roles/infra/tasks/ipassign.py "{{item.value.VPC_name}}" subnet "{{item.value.Subnet1.Subnet_IP}}") dev central_DNS2_br
 
   - name: attach veth pair interface to containers
-    command: sudo ip link set $(python ./roles/infra/tasks/getDockerPID.py ngnix) dev ngnix_br
+    command: sudo ip link set $(python ./roles/infra/tasks/getDockerPID.py nginx) dev ngnix_br
 
   - name: make interface up
     command: sudo docker exec -it --privileged nginx ip link set dev ngnix_br up
