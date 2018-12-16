@@ -1,0 +1,3 @@
+---
+  - name: copy the user yml to vars in current task
+    command: cp ./editInput.yml ./roles/edit/vars/main.yml
