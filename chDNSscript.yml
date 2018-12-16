@@ -1,2 +1,40 @@
 ---
-  - name: change dns scripts
+- hosts: localhost
+  gather_facts: no
+  become: yes
+  tasks:
+  - name: register self IP
+    shell: ifconfig new | awk '/t addr:/{gsub(/.*:/,"",$2);print$2}' #later on it will be eth1 for every VM
+    register: selfIP
+
+  - debug:
+      msg: "{{ selfIP.stdout }}"
+
+  - name: long form task does not
+    replace:
+      dest: /etc/named.conf
+      regexp: '192.168.199.104'
+      replace: "{{ selfIP.stdout }}"
+      backup: yes
+
+  - name: change subnet in named.conf
+    replace:
+      dest: /etc/named.conf
+      regexp: '192.168.199.0/24'
+      replace: "{{ lookup('env', 'Subnet_IP') }}" #do not forget to add subnet mask
+      backup: yes
+
+  - name: change VPC IP in named.conf
+    replace:
+      dest: /etc/named.conf
+      regexp: '192.168.190.38'
+      replace: "{{ lookup('env', 'VPC_IP') }}"
+      backup: yes
+
+  - name: change domain url in named.conf
+    replace:
+      dest: /etc/named.conf
+      regexp: 'linux.com'
+      replace: "{{ lookup('env', 'Domain_url') }}"
+      backup: yes
+
