@@ -23,8 +23,11 @@
     command: ip addr add 10.10.10.1/24 dev "host_{{ item.value.VPC_name }}"
     with_dict: "{{ VPC }}"
 
-  - name: create bridge and make it up for VPC DNS
-    shell: sudo brctl addbr central_br | sudo ip link set central_br up
+  - name: create bridge for VPC DNS
+    shell: sudo brctl addbr central_br 
+
+  - name: make it up for VPC DNS
+    shell: sudo ip link set central_br up
 
   - name: create Veth pair from central DNS to bridge
     command: ip link add central_DNS1_br type veth peer name br_central_DNS1
