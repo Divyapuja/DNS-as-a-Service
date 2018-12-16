@@ -6,7 +6,7 @@
     command: ip netns exec "{{ item.value.VPC_name }}" ip tunnel add gretun1 mode gre 60.60.60.10 remote 10.10.10.10
     with_dict: "{{ VPC }}"
  
-   - name: create Tunnel
+  - name: create Tunnel
     command: ip netns exec "{{ item.value.VPC_name }}" sudo ip link set dev gretun1 up
     with_dict: "{{ VPC }}"
 
