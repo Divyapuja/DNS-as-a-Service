@@ -10,7 +10,7 @@
   - debug:
       msg: "{{ selfIP.stdout }}"
 
-  - name: long form task does not
+  - name: Adding self IP in named conf
     replace:
       dest: /etc/named.conf
       regexp: '192.168.199.104'
@@ -36,5 +36,20 @@
       dest: /etc/named.conf
       regexp: 'linux.com'
       replace: "{{ lookup('env', 'Domain_url') }}"
+      backup: yes
+
+# ask shriram if path is correct
+  - name: change primary DNS forwarder
+    replace:
+      dest: /var/named/forward.linux.com.ncsu
+      regexp: 'hostname'
+      replace: "{{ lookup('env', 'Subnet_IP') }}.{{ lookup('env', 'VPC_IP') }}"
+      backup: yes
+
+  - name: change secondary DNS forwarder
+    replace:
+      dest: /var/named/forward.linux.com.ncsu
+      regexp: 'hostnameANDsomething'
+      replace: "{{ lookup('env', 'secondary_Subnet_IP') }}.{{ lookup('env', 'secondary_VPC_IP') }}"
       backup: yes
 
