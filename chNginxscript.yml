@@ -7,12 +7,16 @@
     shell: ifconfig new | awk '/t addr:/{gsub(/.*:/,"",$2);print$2}' #later on it will be eth1 for every VM
     register: selfIP
 
-  - debug:
-      msg: "{{ selfIP.stdout }}"
+  - name: Adding self IP in named conf
+    replace:
+      dest: /etc/nginx/nginx.conf
+      regexp: '100.100.100.10'
+      replace: "{{ lookup('env', 'centralDNS1_IP') }}"
+      backup: yes
 
   - name: Adding self IP in named conf
     replace:
-      dest: /etc/named.conf
-      regexp: '192.168.199.104'
-      replace: "{{ selfIP.stdout }}"
+      dest: /etc/nginx/nginx.conf
+      regexp: '100.100.100.20'
+      replace: "{{ lookup('env', 'centralDNS2_IP') }}"
       backup: yes
