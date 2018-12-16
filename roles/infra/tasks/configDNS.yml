@@ -16,11 +16,11 @@
     with_dict: "{{ VPC }}"
 
   - name: attach veth pair interface to normal containers
-    shell: sudo ip link set $(python ./roles/infra/tasks/getDockerPID.py "{{ item.value.Subnet1.VM_name}}_{{item.value.VPC_name}}") dev "{{item.value.Subnet1.VM_name}}_{{item.value.Subnet1.Subnet_name}}"
+    shell: sudo ip link set "{{item.value.Subnet1.VM_name}}_{{item.value.Subnet1.Subnet_name}}" netns $(sudo docker inspect -f {{.State.Pid}} "{{ item.value.Subnet1.VM_name}}_{{item.value.VPC_name}}")
     with_dict: "{{ VPC }}"
 
   - name: attach veth pair interface to DNS1 container
-    shell: sudo ip link set $(python ./roles/infra/tasks/getDockerPID.py "{{item.value.Subnet1.Subnet_name}}_{{item.value.VPC_name}}_DNS1") dev "DNS1_{{item.value.Subnet1.Subnet_name}}"
+    shell: sudo ip link set netns "DNS1_{{item.value.Subnet1.Subnet_name}}" $(sudo docker inspect -f {{.State.Pid}} "{{item.value.Subnet1.Subnet_name}}_{{item.value.VPC_name}}_DNS1")
     with_dict: "{{ VPC }}"
     
   - name: make interface up
