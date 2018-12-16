@@ -23,4 +23,7 @@
     shell: sudo nsenter -t $(python ./roles/infra/tasks/getDockerPID.py "{{ item.value.Subnet1.VM_name}}_{{item.value.VPC_name}}") -n ip addr add $(python ./roles/infra/tasks/ipassign.py "{{item.value.VPC_name}}" subnet "{{item.value.Subnet1.Subnet_IP}}") dev "{{item.value.Subnet1.VM_name}}_{{item.value.Subnet1.Subnet_name}}"
     with_dict: "{{ VPC }}"
 
-# last two tasks not working
+# last two tasks not working , get subnet IP secondary from input var file
+  - name: trigger DNS setting inside DNS containers
+    shell: sudo docker exec -i "{{item.value.VPC_name}}_DNS1" sh triggerDNSAnsible.sh "{{ Subnet_IP}}" "{{item.value.VPC_name}}" "{{ item.value.Subnet1.Subnet_name}}" 
+    with_dict: "{{ VPC }}"
