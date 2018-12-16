@@ -1,0 +1,4 @@
+[main-hypervisor]
+localhost ansible_connection=local
+[remote-hypervisor]
+25.25.25.10 ansible_connection=ssh ansible_user=ece792
