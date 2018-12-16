@@ -3,6 +3,18 @@
     command: ip netns add "{{ item.value.VPC_name }}"
     with_dict: "{{ VPC }}"
 
+  - name: create Tunnel
+    command: ip netns exec "{{ item.value.VPC_name }}" ip tunnel add gretun1 mode gre 10.10.10.10 remote 60.60.60.10
+    with_dict: "{{ VPC }}"
+ 
+   - name: create Tunnel
+    command: ip netns exec "{{ item.value.VPC_name }}" sudo ip link set dev gretun1 up
+    with_dict: "{{ VPC }}"
+
+  - name: Add tunnel route
+    command: ip netns exec "{{ item.value.VPC_name }}" ip route add "{{editSubnet}}" dev gretun1
+    with_dict: "{{ VPC }}"
+
   - name: create Veth pair
     command: ip link add "{{ item.value.VPC_name }}_host" type veth peer name "host_{{ item.value.VPC_name }}"
     with_dict: "{{ VPC }}"
