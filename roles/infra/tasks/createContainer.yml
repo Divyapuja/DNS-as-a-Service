@@ -38,9 +38,9 @@
     command: sudo docker run -itd --privileged --name="central_DNS1" --hostname="central_DNS1" soupcentraldns
 
   - name: create secondary container for central DNS
-    command: sudo docker run -itd --privileged --name="central_DNS1" --hostname="central_DNS2" soupcentraldns
+    command: sudo docker run -itd --privileged --name="central_DNS2" --hostname="central_DNS2" soupcentraldns
 
   - name: create container for central load balancer 
-    command: sudo docker run -itd --privileged --name="ngnix" --hostname="ngnix" ngnix
+    command: sudo docker run -itd --privileged --name="ngnix" --hostname="ngnix" soupngnix
 
 
