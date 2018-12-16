@@ -4,7 +4,7 @@
 VPC:
   VPC1:
     VPC_IP: 192.168.100.1/24
-    VPC_name: NCSU
+    VPC_name: VPC1
     Subnet1:
       Subnet_IP: 192.168.100.0/24
       Subnet_name: fb.com
